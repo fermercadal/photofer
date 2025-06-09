@@ -1,0 +1,174 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+
+export async function getStaticPaths() {
+  const images = await getCollection('images');
+  return images.map(image => ({
+    params: { slug: image.slug },
+    props: { image }
+  }));
+}
+
+const { image } = Astro.props;
+---
+
+<Layout title={image.data.title}>
+  <article class="image-detail">
+    <Image 
+      src={image.data.image} 
+      alt={image.data.title} 
+      width={1200} 
+      height={800} 
+      loading="eager" 
+    />
+    
+    <div class="content">
+      <h1>{image.data.title}</h1>
+      
+      {image.data.description && (
+        <p class="description">{image.data.description}</p>
+      )}
+      
+      <div class="metadata">
+        <div class="date">
+          <strong>Date:</strong> {image.data.date.toLocaleDateString()}
+        </div>
+        
+        {image.data.exif && (
+          <div class="exif">
+            <h2>Camera Details</h2>
+            <div class="exif-grid">
+              {image.data.exif.model && (
+                <div class="exif-item">
+                  <strong>Camera:</strong> {image.data.exif.model}
+                </div>
+              )}
+              {image.data.exif.lens && (
+                <div class="exif-item">
+                  <strong>Lens:</strong> {image.data.exif.lens}
+                </div>
+              )}
+              {image.data.exif.focalLength && (
+                <div class="exif-item">
+                  <strong>Focal Length:</strong> {image.data.exif.focalLength}
+                </div>
+              )}
+              {image.data.exif.aperture && (
+                <div class="exif-item">
+                  <strong>Aperture:</strong> {image.data.exif.aperture}
+                </div>
+              )}
+              {image.data.exif.shutterSpeed && (
+                <div class="exif-item">
+                  <strong>Shutter Speed:</strong> {image.data.exif.shutterSpeed}
+                </div>
+              )}
+              {image.data.exif.iso && (
+                <div class="exif-item">
+                  <strong>ISO:</strong> {image.data.exif.iso}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+        
+        <div class="categories">
+          <strong>Categories:</strong>
+          {image.data.categories.map(category => (
+            <a href={`/category/${category}`} class="category">{category}</a>
+          ))}
+        </div>
+      </div>
+    </div>
+  </article>
+</Layout>
+
+<style>
+  .image-detail {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  img {
+    width: 100%;
+    aspect-ratio: auto;
+    object-fit: contain;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+  }
+
+  .content {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .description {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: #666;
+    margin-bottom: 2rem;
+  }
+
+  .metadata {
+    border-top: 1px solid #eee;
+    padding-top: 1rem;
+  }
+
+  .date {
+    margin-bottom: 1rem;
+  }
+
+  .categories {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .category {
+    font-size: 0.9rem;
+    padding: 0.3rem 0.8rem;
+    background: #f5f5f5;
+    border-radius: 20px;
+    text-decoration: none;
+    color: #333;
+    transition: background 0.2s;
+  }
+
+  .category:hover {
+    background: #eee;
+  }
+
+  .exif {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: #f8f8f8;
+    border-radius: 8px;
+  }
+
+  .exif h2 {
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+  }
+
+  .exif-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+
+  .exif-item {
+    font-size: 0.9rem;
+  }
+
+  .exif-item strong {
+    color: #666;
+  }
+</style> 
