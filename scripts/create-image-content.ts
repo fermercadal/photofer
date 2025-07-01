@@ -1,13 +1,13 @@
 import fs from "fs/promises";
 import path from "path";
 
-const PUBLIC_IMAGES_DIR = path.join(process.cwd(), "public/images");
+const ASSETS_IMAGES_DIR = path.join(process.cwd(), "src/assets/images");
 const CONTENT_IMAGES_DIR = path.join(process.cwd(), "src/content/images");
 
 async function createImageContent() {
 	try {
 		// Read all image files
-		const files = await fs.readdir(PUBLIC_IMAGES_DIR);
+		const files = await fs.readdir(ASSETS_IMAGES_DIR);
 		const imageFiles = files.filter(file =>
 			/\.(jpg|jpeg|png|gif|webp)$/i.test(file)
 		);
@@ -26,7 +26,7 @@ async function createImageContent() {
 				const content = `---
 title: "${path.parse(imageFile).name}"
 date: ${new Date().toISOString().split("T")[0]}
-image: "/images/${imageFile}"
+image: "../../assets/images/${imageFile}"
 categories: []
 ---
 `;

@@ -3,7 +3,7 @@ import fs from "fs/promises";
 import path from "path";
 import matter from "gray-matter";
 
-const PUBLIC_IMAGES_DIR = path.join(process.cwd(), "public/images");
+const ASSETS_IMAGES_DIR = path.join(process.cwd(), "src/assets/images");
 const CONTENT_IMAGES_DIR = path.join(process.cwd(), "src/content/images");
 
 async function processImages() {
@@ -19,8 +19,8 @@ async function processImages() {
 
 			// Get the image path from the frontmatter
 			const imagePath = path.join(
-				PUBLIC_IMAGES_DIR,
-				data.image.replace("/images/", "")
+				ASSETS_IMAGES_DIR,
+				data.image.replace("../../assets/images/", "")
 			);
 
 			// Extract EXIF data
