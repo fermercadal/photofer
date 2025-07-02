@@ -8,13 +8,18 @@ const categories = [...new Set(allImages.flatMap(image => image.data.categories)
 ---
 
 <Layout title="Photo Catalog">
-  <h1 class="text-4xl font-bold mb-8 text-center">Catalog</h1>
-  <div class="flex flex-wrap gap-3 justify-center mb-8">
-    <a href="/catalog" class="px-4 py-2 rounded-full bg-gray-200 dark:bg-zinc-700 text-black dark:text-white font-medium hover:bg-gray-300 dark:hover:bg-zinc-600 transition">All</a>
-    {categories.map(category => (
-      <a href={`/category/${category}`} class="px-4 py-2 rounded-full bg-gray-200 dark:bg-zinc-700 text-black dark:text-white font-medium hover:bg-gray-300 dark:hover:bg-zinc-600 transition">{category}</a>
-    ))}
-  </div>
+  <h1 class="text-4xl font-bold mb-8 text-center">Catálogo</h1>
+
+  <section>
+    <h2 class="text-lg font-bold mb-4 text-center">Categorías</h2>
+    <div class="flex flex-wrap gap-3 justify-center mb-8">
+      <a href="/catalog" class="text-black dark:text-white font-medium underline">Todas</a>
+      {categories.map(category => (
+        <a href={`/category/${category}`} class="text-black dark:text-white font-medium hover:underline">{category}</a>
+      ))}
+    </div>
+  </section>
+  
   <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
     {allImages.map((image, index) => (
       <a href={`/images/${image.slug}`} class="block rounded-lg overflow-hidden bg-white dark:bg-zinc-800 hover:scale-105 transition-transform">

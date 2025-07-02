@@ -17,10 +17,28 @@ const { category } = Astro.props;
 const images = await getCollection('images', ({ data }) => 
   data.categories.includes(category)
 );
+
+const allImages = await getCollection('images');
+const categories = [...new Set(allImages.flatMap(image => image.data.categories))];
 ---
 
 <Layout title={`${category} Photos`}>
   <h1 class="text-4xl font-bold mb-8 text-center capitalize">{category} Photos</h1>
+  <section>
+    <h2 class="text-lg font-bold mb-4 text-center">Categorías</h2>
+    <div class="flex flex-wrap gap-3 justify-center mb-8">
+      <a 
+        href="/catalog" 
+        class={`text-black dark:text-white font-medium hover:underline ${!category ? 'font-bold underline' : ''}`}
+      >Todas</a>
+      {categories.map(cat => (
+        <a 
+          href={`/category/${cat}`} 
+          class={`text-black dark:text-white font-medium hover:underline ${cat === category ? 'font-bold underline' : ''}`}
+        >{cat}</a>
+      ))}
+    </div>
+  </section>
   <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
     {images.map((image, index) => (
       <a href={`/images/${image.slug}`} class="block rounded-lg overflow-hidden bg-white dark:bg-zinc-800 hover:scale-105 transition-transform">

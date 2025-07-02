@@ -33,11 +33,11 @@ const { image } = Astro.props;
       )}
       <div class="metadata border-t border-gray-200 dark:border-zinc-700 pt-4 mt-4">
         <div class="date mb-2 text-sm text-gray-500 dark:text-gray-400">
-          <strong>Date:</strong> {image.data.date.toLocaleDateString()}
+          <strong>Fecha:</strong> {image.data.date.toLocaleDateString()}
         </div>
         {image.data.exif && (
           <div class="exif my-6 p-4 bg-gray-100 dark:bg-zinc-800 rounded-lg">
-            <h2 class="text-lg font-semibold mb-2 text-black dark:text-white">Camera Details</h2>
+            <h2 class="text-lg font-semibold mb-2 text-black dark:text-white">Especificaciones</h2>
             <div class="grid grid-cols-1">
               {image.data.exif.model && (
                 <div class="text-sm"><strong>Camera:</strong> {image.data.exif.model}</div>
@@ -61,7 +61,7 @@ const { image } = Astro.props;
           </div>
         )}
         <div class="categories flex flex-wrap gap-2 mt-4">
-          <strong class="text-sm">Categories:</strong>
+          <strong class="text-sm">Categorías:</strong>
           {image.data.categories.map(category => (
             <a href={`/category/${category}`} class="px-2 py-1 rounded bg-gray-200 dark:bg-zinc-700 text-xs text-gray-700 dark:text-gray-200">{category}</a>
           ))}
