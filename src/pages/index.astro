@@ -2,18 +2,23 @@
 import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 import { Image } from 'astro:assets';
+import { useTranslations, useTranslatedPath } from '../i18n/utils';
+
+const t = useTranslations('es');
+const translatePath = useTranslatedPath('es');
+const { title, portfolio } = t.home;
 
 const featuredImages = await getCollection('images', ({ data }) => data.featured);
 const [firstImage, ...restImages] = featuredImages;
 ---
 
-<Layout title="Photo Portfolio">
-	<h1 class="text-4xl font-bold mb-8 text-center">PhotoFer</h1>
+<Layout title={portfolio}>
+	<h1 class="text-4xl font-bold mb-8 text-center">{title}</h1>
 	
 	<section class="featured mb-12">
 		{firstImage && (
 			<div class="featured-main mb-8 flex flex-col items-center">
-				<a href={`/images/${firstImage.slug}`} class="block w-full max-w-4xl overflow-hidden bg-white dark:bg-zinc-800  rounded-lg">
+				<a href={translatePath(`/images/${firstImage.slug}`)} class="block w-full max-w-4xl overflow-hidden bg-white dark:bg-zinc-800  rounded-lg">
 					<Image 
 						src={firstImage.data.image} 
 						alt={firstImage.data.title} 
@@ -29,7 +34,7 @@ const [firstImage, ...restImages] = featuredImages;
 
 		<div class="gallery grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
 			{restImages.map((image) => (
-				<a href={`/images/${image.slug}`} class="block rounded-lg overflow-hidden bg-white dark:bg-zinc-800 hover:scale-105 transition-transform">
+				<a href={translatePath(`/images/${image.slug}`)} class="block rounded-lg overflow-hidden bg-white dark:bg-zinc-800 hover:scale-105 transition-transform">
 					<Image 
 						src={image.data.image} 
 						alt={image.data.title} 

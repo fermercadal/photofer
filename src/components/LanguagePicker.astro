@@ -1,0 +1,27 @@
+---
+import { languages } from '../i18n/ui';
+import { getLangFromUrl, useTranslatedPath } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const currentPath = Astro.url.pathname;
+
+// Extract the path without the language prefix
+const pathWithoutLang = lang === 'es' ? currentPath : currentPath.replace(`/${lang}`, '');
+
+// Handle the root path specially
+const routePath = pathWithoutLang === '' ? '/' : pathWithoutLang;
+---
+
+<ul class="flex gap-2">
+  {Object.entries(languages).map(([code, label]) => {
+    const translatePath = useTranslatedPath(code as keyof typeof languages);
+    if (code === lang) {
+      return <li class="font-bold" aria-current="page">{label}</li>;
+    }
+    return (
+      <li>
+        <a href={translatePath(routePath)} class="underline hover:text-blue-600">{label}</a>
+      </li>
+    );
+  })}
+</ul> 
