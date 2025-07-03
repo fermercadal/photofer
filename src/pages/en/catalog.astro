@@ -41,7 +41,7 @@ const categories = [...new Set(images.flatMap(img => img.data.categories || []))
 					class="w-full h-64 object-cover"
 				/>
 				<div class="p-4">
-					<h2 class="text-lg font-medium text-black dark:text-white mb-2">{image.data.title}</h2>
+					<h2 class="text-sm font-medium text-black dark:text-white mb-2">{image.data.title}</h2>
 					{image.data.categories && (
 						<div class="flex flex-wrap gap-1">
 							{image.data.categories.map((category) => (

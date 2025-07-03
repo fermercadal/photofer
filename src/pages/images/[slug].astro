@@ -34,14 +34,14 @@ const formatDate = (date: Date) => {
 			</a>
 		</div>
 
-		<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-			<div class="image-container">
+		<div class="grid grid-cols-1">
+			<div class="image-container mb-6">
 				<Image 
 					src={image.data.image} 
 					alt={image.data.title} 
 					width={800} 
 					height={600} 
-					class="w-full h-auto rounded-lg"
+					class="w-full h-auto"
 				/>
 			</div>
 
@@ -64,7 +64,7 @@ const formatDate = (date: Date) => {
 				{image.data.exif && (
 					<div class="mb-6">
 						<h2 class="text-xl font-semibold mb-3 text-black dark:text-white">{specs}</h2>
-						<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+						<div class="grid grid-cols-1">
 							{image.data.exif.model && (
 								<div>
 									<span class="font-medium text-gray-700 dark:text-gray-300">{camera}:</span>
