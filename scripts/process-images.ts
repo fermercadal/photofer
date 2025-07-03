@@ -27,9 +27,11 @@ async function processImages() {
 			const exifData = await extractExifData(imagePath);
 
 			if (exifData) {
-				// Update the frontmatter with EXIF data
+				// Update the frontmatter with EXIF data and ensure featured/description fields
 				const updatedData = {
 					...data,
+					description: data.description ?? "Image description",
+					featured: typeof data.featured === "boolean" ? data.featured : false,
 					exif: exifData,
 				};
 

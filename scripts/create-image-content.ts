@@ -25,9 +25,11 @@ async function createImageContent() {
 				// File doesn't exist, create it
 				const content = `---
 title: "${path.parse(imageFile).name}"
+description: "Image description"
 date: ${new Date().toISOString().split("T")[0]}
 image: "../../assets/images/${imageFile}"
 categories: []
+featured: false
 ---
 `;
 				await fs.writeFile(mdFilePath, content);

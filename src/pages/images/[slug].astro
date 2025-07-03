@@ -48,6 +48,12 @@ const formatDate = (date: Date) => {
 			<div class="image-info">
 				<h1 class="text-3xl font-bold mb-4 text-black dark:text-white">{image.data.title}</h1>
 				
+				{image.data.description && (
+					<div class="prose dark:prose-invert max-w-none">
+						<p class="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">{image.data.description}</p>
+					</div>
+				)}
+
 				{image.data.date && (
 					<div class="mb-4">
 						<span class="font-semibold text-gray-700 dark:text-gray-300">{date}:</span>
@@ -109,12 +115,6 @@ const formatDate = (date: Date) => {
 								</a>
 							))}
 						</div>
-					</div>
-				)}
-
-				{image.data.description && (
-					<div class="prose dark:prose-invert max-w-none">
-						<p class="text-gray-700 dark:text-gray-300 leading-relaxed">{image.data.description}</p>
 					</div>
 				)}
 			</div>
