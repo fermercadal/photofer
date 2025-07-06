@@ -26,23 +26,41 @@ async function processImages() {
 			// Extract EXIF data
 			const exifData = await extractExifData(imagePath);
 
+			// Update the frontmatter with basic fields
+			const updatedData: any = {
+				...data,
+				description: data.description ?? "Image description",
+				featured: typeof data.featured === "boolean" ? data.featured : false,
+			};
+
+			// Only add EXIF data if it exists and contains valid values
 			if (exifData) {
-				// Update the frontmatter with EXIF data and ensure featured/description fields
-				const updatedData = {
-					...data,
-					description: data.description ?? "Image description",
-					featured: typeof data.featured === "boolean" ? data.featured : false,
-					exif: exifData,
-				};
+				// Filter out undefined values from EXIF data
+				const cleanExifData = Object.fromEntries(
+					Object.entries(exifData).filter(([_, value]) => value !== undefined)
+				);
 
-				// Create new frontmatter
-				const newContent = matter.stringify(markdownContent, updatedData);
+				// Only add exif field if we have valid data
+				if (Object.keys(cleanExifData).length > 0) {
+					updatedData.exif = cleanExifData;
+				}
+			}
 
-				// Write back to file
-				await fs.writeFile(filePath, newContent);
+			// Create new frontmatter
+			const newContent = matter.stringify(markdownContent, updatedData);
+
+			// Write back to file
+			await fs.writeFile(filePath, newContent);
+
+			if (
+				exifData &&
+				Object.keys(exifData).some(
+					(key: string) => (exifData as any)[key] !== undefined
+				)
+			) {
 				console.log(`Updated ${file} with EXIF data`);
 			} else {
-				console.log(`No EXIF data found for ${file}`);
+				console.log(`Updated ${file} (no EXIF data available)`);
 			}
 		}
 	} catch (error) {
